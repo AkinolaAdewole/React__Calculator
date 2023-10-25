@@ -11,6 +11,8 @@ export const ACTIONS = {
   EVALUATE: "evaluate"
 }
 
+
+
 function reducer(state, { type, payload }) {
   switch (type) {
     case ACTIONS.ADD_DIGIT:
@@ -61,7 +63,8 @@ function reducer(state, { type, payload }) {
 
       return {
         ...state,
-        previousOperand: evaluate(state), // Evaluate the expression
+         // Evaluate the expression
+        previousOperand: evaluate(state),
         operation: payload.operation,
         currentOperand: null,
       };
@@ -80,7 +83,8 @@ function reducer(state, { type, payload }) {
           currentOperand: null,
         };
       }
-      if (state.currentOperand == null) return state; // No action if no current operand
+       // No action if no current operand
+      if (state.currentOperand == null) return state;
       if (state.currentOperand.length === 1) {
         // If only one character, clear the current operand
         return { ...state, currentOperand: null };
@@ -88,7 +92,8 @@ function reducer(state, { type, payload }) {
 
       return {
         ...state,
-        currentOperand: state.currentOperand.slice(0, -1), // Remove the last character
+        // Remove the last character
+        currentOperand: state.currentOperand.slice(0, -1),
       };
 
     case ACTIONS.EVALUATE:
@@ -98,7 +103,8 @@ function reducer(state, { type, payload }) {
         state.currentOperand == null ||
         state.previousOperand == null
       ) {
-        return state; // No action if operands are missing
+         // No action if operands are missing
+        return state;
       }
 
       return {
@@ -106,10 +112,66 @@ function reducer(state, { type, payload }) {
         overwrite: true,
         previousOperand: null,
         operation: null,
-        currentOperand: evaluate(state), // Evaluate and store the result
+         // Evaluate and store the result
+        currentOperand: evaluate(state),
       };
   }
 }
+
+
+function evaluate({ currentOperand, previousOperand, operation }) {
+  // Convert operands to floating-point numbers
+  const prev = parseFloat(previousOperand);
+  const current = parseFloat(currentOperand);
+
+  // Check if either operand is not a valid number, return an empty string
+  if (isNaN(prev) || isNaN(current)) return "";
+
+  // Initialize the computation result
+  let computation = "";
+
+  // Perform the arithmetic operation based on the provided operation
+  switch (operation) {
+    case "+":
+      computation = prev + current;
+      break;
+    case "-":
+      computation = prev - current;
+      break;
+    case "*":
+      computation = prev * current;
+      break;
+    case "÷":
+      computation = prev / current;
+      break;
+  }
+
+  // Convert the result to a string and return it
+  return computation.toString();
+}
+
+
+
+// Create a number formatter for formatting integers (whole numbers).
+const INTEGER_FORMATTER = new Intl.NumberFormat("en-us", {
+  maximumFractionDigits: 0,
+});
+
+// Define a function to format the operand.
+function formatOperand(operand) {
+  // Check if the operand is null or undefined. If so, return early.
+  if (operand == null) return;
+
+  // Split the operand into its integer and decimal parts using the dot as a separator.
+  const [integer, decimal] = operand.split(".");
+
+  // If there is no decimal part (i.e., it's a whole number), format the integer using INTEGER_FORMATTER.
+  if (decimal == null) return INTEGER_FORMATTER.format(integer);
+
+  // If there is a decimal part, format both the integer and decimal parts and combine them.
+  return `${INTEGER_FORMATTER.format(integer)}.${decimal}`;
+}
+
 
 
 const Calculator = () => {
