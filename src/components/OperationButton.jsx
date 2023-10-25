@@ -3,7 +3,13 @@ import { ACTIONS } from './Calculator'
 
 const OperationButton = () => {
   return (
-    <div>OperationButton</div>
+    <button
+        onClick={() =>
+          dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: { operation } })
+        }
+      >
+        {operation}
+    </button>
   )
 }
 
