@@ -1,7 +1,7 @@
 import React from 'react'
 import { ACTIONS } from './Calculator'
 
-const OperationButton = () => {
+const OperationButton = ({ dispatch, operation }) => {
   return (
     <button
         onClick={() =>
