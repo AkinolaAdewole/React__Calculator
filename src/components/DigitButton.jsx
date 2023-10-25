@@ -1,9 +1,9 @@
 import React from 'react'
 
-const DigiButton = () => {
+const DigitButton = () => {
   return (
     <div>DigiButton</div>
   )
 }
 
-export default DigiButton
+export default DigitButton
