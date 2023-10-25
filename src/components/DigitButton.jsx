@@ -1,8 +1,13 @@
 import React from 'react'
+import { ACTIONS } from './Calculator'
 
-const DigitButton = () => {
+const DigitButton = ({dispatch, digit}) => {
   return (
-    <div>DigiButton</div>
+    <button
+        onClick={() => dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit } })}
+      >
+        {digit}
+    </button>
   )
 }
 
