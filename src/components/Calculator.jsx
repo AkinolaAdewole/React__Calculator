@@ -175,8 +175,68 @@ function formatOperand(operand) {
 
 
 const Calculator = () => {
+  const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(
+    reducer,
+    {}
+  )
+
   return (
-    <div>Calculator</div>
+    <>
+        <div className="calculator-grid">
+            <div className="output">
+              {/* Display the previousOperand, formatted, along with the current operation. */}
+              <div className="previous-operand">
+                {formatOperand(previousOperand)} {operation}
+              </div>
+
+              {/* Display the currentOperand, formatted. */}
+              <div className="current-operand">{formatOperand(currentOperand)}</div>
+            </div>
+
+            {/* Button to clear the calculator. */}
+            <button
+              className="span-two"
+              onClick={() => dispatch({ type: ACTIONS.CLEAR })}
+            >
+              AC
+            </button>
+
+            {/* Button to delete the last digit/character. */}
+            <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>
+              DEL
+            </button>
+
+            {/* Operation buttons for division, multiplication, addition, and subtraction. */}
+            <OperationButton operation="÷" dispatch={dispatch} />
+            <DigitButton digit="1" dispatch={dispatch} />
+            <DigitButton digit="2" dispatch={dispatch} />
+            <DigitButton digit="3" dispatch={dispatch} />
+            <OperationButton operation="*" dispatch={dispatch} />
+            <DigitButton digit="4" dispatch={dispatch} />
+            <DigitButton digit="5" dispatch={dispatch} />
+            <DigitButton digit="6" dispatch={dispatch} />
+            <OperationButton operation="+" dispatch={dispatch} />
+            <DigitButton digit="7" dispatch={dispatch} />
+            <DigitButton digit="8" dispatch={dispatch} />
+            <DigitButton digit="9" dispatch={dispatch} />
+            <OperationButton operation="-" dispatch={dispatch} />
+
+            {/* Button for the decimal point. */}
+            <DigitButton digit="." dispatch={dispatch} />
+
+            {/* Button for zero. */}
+            <DigitButton digit="0" dispatch={dispatch} />
+
+            {/* Button to evaluate the mathematical expression. */}
+            <button
+              className="span-two"
+              onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
+            >
+              =
+            </button>
+          </div>
+
+    </>
   )
 }
 
